@@ -12,7 +12,11 @@
       "import": "./dist/index.mjs"
     }
   },
-  "repository": "gbrasil720/pandora-logger",
+  "repository": {
+    "type": "git",
+    "url": "gbrasil720/pandora-logger"
+  },
+  "bugs": "https://github.com/gbrasil720/pandora-logger/issues",
   "keywords": [
     "logger",
     "logs",
