@@ -1,0 +1,20 @@
+# Exclude source files and test files
+src/
+tests/
+
+# Ignore build tools and configs
+tsconfig.json
+.vscode/
+.idea/
+.env
+.eslintignore
+.eslintrc.json
+.prettierrc
+package-lock.json
+
+# Other files not needed in the final package
+.git/
+node_modules/
+coverage/
+logs/
+*.log
