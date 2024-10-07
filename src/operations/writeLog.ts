@@ -1,9 +1,9 @@
-import { PandoraClient } from '../index.js';
+import { PandoraClient } from '..';
 import { v4 as uuidv4 } from 'uuid';
-import { EMOJIS } from '../emojis.js';
-import { PandoraWarning } from '../errors/PandoraWarning.js';
-import { delay } from '../utils/delay.js';
-import chalk from 'chalk';
+import { EMOJIS } from '../emojis';
+import { PandoraWarning } from '../errors/PandoraWarning';
+import { delay } from '../utils/delay';
+import clc from 'cli-color';
 
 export async function writeLog(client: PandoraClient, logMessage: string) {
   if (typeof logMessage !== 'string') {
@@ -35,9 +35,7 @@ export async function writeLog(client: PandoraClient, logMessage: string) {
 
     logData.logs[key] = logMessage;
     client.logger.write(logData);
-  }, 'Writing log...');
-
-  console.log(`${client.icons ? chalk.green(EMOJIS.CHECK_MARK) + ' ' : ''}Log written successfully: ${chalk.cyan(logMessage)}`);
+  }, 'Writing log...', `Log written successfully: ${clc.cyan(logMessage)}`);
 
   return key as unknown as string | number
 }

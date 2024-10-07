@@ -1,8 +1,8 @@
-import { PandoraClient } from '../index.js';
-import { EMOJIS } from '../emojis.js';
-import { PandoraError } from '../errors/PandoraError.js';
-import { delay } from '../utils/delay.js';
-import chalk from 'chalk';
+import clc from 'cli-color';
+import { PandoraClient } from '..';
+import { EMOJIS } from '../emojis';
+import { PandoraError } from '../errors/PandoraError';
+import { delay } from '../utils/delay';
 import fs from 'fs';
 import path from 'path';
 
@@ -24,7 +24,6 @@ export async function restoreLogs(client: PandoraClient, backupPath: string) {
         throw new PandoraError('Backup file is empty. Please verify the backup file.', EMOJIS.BROKEN_HEART ?? '', 3002);
       }
       
-      // Assuming the backup data is encrypted, decrypt it before parsing
       const decryptedData = client.logger.decrypt(backupData);
       const parsedData = JSON.parse(decryptedData);
       
@@ -39,7 +38,5 @@ export async function restoreLogs(client: PandoraClient, backupPath: string) {
         throw new PandoraError('Error reading or parsing the backup file. Please ensure the file format is correct.', EMOJIS.BROKEN_HEART ?? '', 3005);
       }
     }
-  }, `Restoring logs from: ${backupPath}...`);
-
-  console.log(`${client.icons ? chalk.green(EMOJIS.CHECK_MARK) + ' ' : ''}Logs restored successfully from: ${chalk.blue(backupPath)}`);
+  }, `Restoring logs from: ${backupPath}...`, `Logs restored successfully from: ${clc.blue(backupPath)}`);
 }

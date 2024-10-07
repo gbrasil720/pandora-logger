@@ -1,7 +1,6 @@
 keyType: uuid
-logFilePath: ./src/tests/logs/pandora.log
-icons: true,
-backupPath: ./src/tests/backup/pandora_backup.log
+logFilePath: ./tests/logs/pandora.log
+# backupPath: ./src/tests/backup/pandora_backup.log
 encryption:
   enabled: true
   encryptionKey: 0123456789abcdef0123456789abcdef

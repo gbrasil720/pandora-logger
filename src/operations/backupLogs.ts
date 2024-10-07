@@ -1,10 +1,10 @@
-import { PandoraClient } from '../index.js';
-import { delay } from '../utils/delay.js';
-import { PandoraWarning } from '../errors/PandoraWarning.js';
-import chalk from 'chalk';
+import { PandoraClient } from '..';
+import { delay } from '../utils/delay';
+import { PandoraWarning } from '../errors/PandoraWarning';
 import { createGzip } from 'zlib';
 import fs from 'fs';
-import { EMOJIS } from '../emojis.js';
+import { EMOJIS } from '../emojis';
+import clc from 'cli-color';
 
 export async function backupLogs(client: PandoraClient, backupPath?: string) {
   const path = backupPath || client.backupPath || 'backup_logs.json';
@@ -14,7 +14,7 @@ export async function backupLogs(client: PandoraClient, backupPath?: string) {
 
   await client.spinner.run(async () => {
     await delay(500);
-  }, `Backing up logs to: ${path}...`);
+  }, `Backing up logs to: ${path}...`, `Logs backed up and compressed successfully to: ${clc.blue(`${path}.gz`)}`);
 
   const logData = client.logger.read();
   client.logger.writeToPath(path, logData);
@@ -25,6 +25,4 @@ export async function backupLogs(client: PandoraClient, backupPath?: string) {
   const destination = fs.createWriteStream(`${path}.gz`);
 
   source.pipe(gzip).pipe(destination);
-
-  console.log(`${client.icons ? chalk.green(EMOJIS.CHECK_MARK) + ' ' : ''}Logs backed up and compressed successfully to: ${chalk.blue(`${path}.gz`)}`);
 }

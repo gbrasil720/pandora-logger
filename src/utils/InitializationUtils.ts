@@ -1,6 +1,6 @@
-import { PandoraClient } from "../index.js";
-import { EMOJIS } from "../emojis.js";
-import { PandoraError } from "../errors/PandoraError.js";
+import { PandoraClient } from "../index";
+import { EMOJIS } from "../emojis";
+import { PandoraError } from "../errors/PandoraError";
 
 export function ensureInitialized(client: PandoraClient) {
   if (!client.initialized) {

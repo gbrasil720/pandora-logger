@@ -4,13 +4,13 @@ import { v4 as uuidv4 } from 'uuid';
 import cuid from 'cuid';
 import path from 'path'
 
-import { ClientConfig, LogKey, PandoraClientTypes } from './types/index.js';
-import chalk from 'chalk';
-import { EMOJIS } from './emojis.js';
-import { PandoraError } from './errors/PandoraError.js';
-import { Spinner } from './spinner.js';
-import { Logger } from './logger.js';
-import { ensureInitialized } from './utils/InitializationUtils.js';
+import { ClientConfig, LogKey, PandoraClientTypes } from './types';
+
+import { EMOJIS } from './emojis';
+import { PandoraError } from './errors/PandoraError';
+import { Spinner } from './spinner';
+import { Logger } from './logger';
+import { ensureInitialized } from './utils/InitializationUtils';
 import {
   writeLog,
   getLog,
@@ -21,12 +21,13 @@ import {
   clearLogs,
   restoreLogs,
   rotateLogs
-} from './operations/index.js';
+} from './operations';
+import clc from 'cli-color';
 
 export class PandoraClient implements PandoraClientTypes {
   public keyType: LogKey;
   public logFilePath: string;
-  public icons: boolean;
+  // public icons: boolean;
   public numericalKeyCounter: number;
   public initialized: boolean;
   public backupPath?: string;
@@ -66,12 +67,11 @@ export class PandoraClient implements PandoraClientTypes {
 
     this.keyType = clientConfig.keyType;
     this.logFilePath = clientConfig.logFilePath;
-    this.icons = clientConfig.icons;
     this.backupPath = clientConfig.backupPath;
     this.numericalKeyCounter = 1;
     this.initialized = false;
     this.logger = new Logger(this.logFilePath, clientConfig.encryption || { enabled: false });
-    this.spinner = new Spinner(this.icons);
+    this.spinner = new Spinner()
   }
 
   generateKey(): string | number {
@@ -97,9 +97,7 @@ export class PandoraClient implements PandoraClientTypes {
       const logData = this.logger.read();
       this.numericalKeyCounter = logData.numericalKeyCounter || 1;
       this.initialized = true;
-    }, 'Initializing PandoraClient...');
-
-    console.log(`${this.icons ? chalk.green(EMOJIS.ROCKET) + ' ' : ''}PandoraClient initialized successfully!`);
+    }, 'Initializing PandoraClient...', `${clc.green(EMOJIS.ROCKET)}PandoraClient initialized successfully!`);
   }
 
   async write(logMessage: string, level: 'info' | 'warning' | 'error' = 'info'): Promise<string | number> {

@@ -2,8 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
-import { PandoraError } from './errors/PandoraError.js';
-import { EMOJIS } from './emojis.js';
+import { PandoraError } from './errors/PandoraError';
+import { EMOJIS } from './emojis';
 
 interface EncryptionOptions {
   enabled: boolean;

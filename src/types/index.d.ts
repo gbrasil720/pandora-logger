@@ -1,5 +1,5 @@
-import { Logger } from '../logger.js';
-import { Spinner } from '../spinner.js';
+import { Logger } from '../logger';
+import { Spinner } from '../spinner';
 
 export type LogKey = 'uuid' | 'numerical' | 'cuid' | 'date';
 
@@ -16,7 +16,7 @@ export interface ClientConstructor {
   encryption?: EncryptionOptions;
 }
 
-interface ClientConfig {
+export interface ClientConfig {
   keyType: 'uuid' | 'numerical' | 'cuid' | 'date';
   logFilePath: string;
   icons: boolean;
@@ -27,7 +27,6 @@ interface ClientConfig {
 export interface PandoraClientTypes {
   keyType: LogKey;
   logFilePath: string;
-  icons: boolean;
   backupPath?: string;
   logger: Logger;
   spinner: Spinner;

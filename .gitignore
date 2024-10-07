@@ -25,3 +25,6 @@ Thumbs.db
 
 # Test coverage reports
 coverage/
+
+# Local build
+./pandora-logger-1.0.0.tgz

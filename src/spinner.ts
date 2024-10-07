@@ -1,23 +1,15 @@
-import cliSpinners from 'cli-spinners';
+import { createSpinner } from 'nanospinner';
 
 export class Spinner {
-  private icons: boolean;
+  async run(operation: () => Promise<void> | void, message: string, sucessMessage: string) {
+    const spinner = createSpinner(message).start();
 
-  constructor(icons: boolean) {
-    this.icons = icons;
-  }
-
-  async run(operation: () => Promise<void> | void, message: string) {
-    const spinnerFrames = cliSpinners.dots.frames;
-    let i = 0;
-
-    const spinnerInterval = setInterval(() => {
-      process.stdout.write(`\r${this.icons ? spinnerFrames[i = ++i % spinnerFrames.length] + ' ' : ''}${message}`);
-    }, cliSpinners.dots.interval);
-
-    await operation();
-
-    clearInterval(spinnerInterval);
-    process.stdout.write('\r');
+    try {
+      await operation();
+      spinner.success({ text: sucessMessage });
+    } catch (error) {
+      spinner.error({ text: 'Operation failed' });
+      throw error;
+    }
   }
 }

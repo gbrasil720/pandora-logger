@@ -1,13 +1,13 @@
-import { PandoraClient } from '../index.js';
-import { EMOJIS } from '../emojis.js';
-import { PandoraWarning } from '../errors/PandoraWarning.js';
-import { delay } from '../utils/delay.js';
-import chalk from 'chalk';
+import clc from 'cli-color';
+import { PandoraClient } from '..';
+import { EMOJIS } from '../emojis';
+import { PandoraWarning } from '../errors/PandoraWarning';
+import { delay } from '../utils/delay';
 
 export async function listLogs(client: PandoraClient, filterCriteria?: (key: string, message: string) => boolean) {
   await client.spinner.run(async () => {
     await delay(500);
-  }, 'Listing all logs...');
+  }, 'Listing all logs...', 'Listed all logs successfully!');
 
   let logs;
   if (filterCriteria) {
@@ -22,7 +22,7 @@ export async function listLogs(client: PandoraClient, filterCriteria?: (key: str
 
   if (logs && typeof logs === 'object') {
     Object.entries(logs).forEach(([key, message]) => {
-      console.log(`${chalk.yellow(`${key}`)}: ${chalk.cyan(message as string)}`);
+      console.log(`${clc.yellow(`${key}`)}: ${clc.cyan(message as string)}`);
     });
   }
 
