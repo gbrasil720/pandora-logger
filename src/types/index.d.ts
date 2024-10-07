@@ -19,7 +19,6 @@ export interface ClientConstructor {
 export interface ClientConfig {
   keyType: 'uuid' | 'numerical' | 'cuid' | 'date';
   logFilePath: string;
-  icons: boolean;
   backupPath?: string;
   encryption?: EncryptionOptions;
 }

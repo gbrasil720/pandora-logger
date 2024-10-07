@@ -27,7 +27,6 @@ import clc from 'cli-color';
 export class PandoraClient implements PandoraClientTypes {
   public keyType: LogKey;
   public logFilePath: string;
-  // public icons: boolean;
   public numericalKeyCounter: number;
   public initialized: boolean;
   public backupPath?: string;

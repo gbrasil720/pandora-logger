@@ -1,6 +1,6 @@
 {
   "name": "pandora-logger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pandora Logger - A secure logging library for Node.js with optional encryption",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
