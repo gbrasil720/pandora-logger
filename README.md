@@ -1,6 +1,6 @@
-# Updated Documentation for Pandora Logger Client
+# Updated Documentation for Pandora Logger
 
-Pandora Logger Client is a simple and secure logging library for Node.js, providing encryption options for log files and easy integration into existing projects. This README explains the usage, configuration, methods, and contribution guidelines for the package.
+Pandora Logger is a simple and secure logging library for Node.js, providing encryption options for log files and easy integration into existing projects. This README explains the usage, configuration, methods, and contribution guidelines for the package.
 
 ## Table of Contents
 - [Installation](#installation)
@@ -12,16 +12,16 @@ Pandora Logger Client is a simple and secure logging library for Node.js, provid
 - [Contributing](#contributing)
 
 ## Installation
-To install the Pandora Logger Client, run:
+To install the Pandora Logger, run:
 
 ```bash
-npm install pandora-logger-client
+npm install pandora-logger
 ```
 
 or
 
 ```bash
-yarn add pandora-logger-client
+yarn add pandora-logger
 ```
 
 ## Configuration
@@ -41,7 +41,7 @@ The constructor accepts an object with the following properties:
 Example:
 
 ```javascript
-import { PandoraClient } from 'pandora-logger-client';
+import { PandoraClient } from 'pandora-logger';
 
 const client = new PandoraClient({
   keyType: 'uuid',
@@ -121,6 +121,20 @@ Lists logs filtered by log level (`'info'`, `'warning'`, or `'error'`). Returns 
 const warningLogs = await client.listLogsByLevel('warning');
 ```
 
+### `listLogsByTimeRange(startTime: Date, endTime: Date)`
+Lists logs within a specified time range. Returns a `Promise<Record<string, string>>` containing the filtered logs.
+
+```javascript
+const logsInRange = await client.listLogsByTimeRange(new Date('2023-01-01'), new Date('2023-12-31'));
+```
+
+### `updateLog(key: string, newMessage: string)`
+Updates an existing log message by its key. Returns a `Promise<void>`.
+
+```javascript
+await client.updateLog(logKey, 'Updated log message');
+```
+
 ### `backupLogs(backupPath?: string)`
 Creates a backup of the logs. If `backupPath` is not provided, it uses the configured backup path. Returns a `Promise<void>`.
 
@@ -153,7 +167,7 @@ await client.clearLogs();
 Here's an example of how to use the Pandora Client in a Node.js application:
 
 ```javascript
-import { PandoraClient } from 'pandora-logger-client';
+import { PandoraClient } from 'pandora-logger';
 
 (async () => {
   const client = new PandoraClient('./pandora.yaml');
@@ -168,13 +182,19 @@ import { PandoraClient } from 'pandora-logger-client';
   const logs = await client.listLogs();
   console.log('All logs:', logs);
 
+  await client.updateLog(logKey, 'Updated server start message');
+  console.log('Log updated successfully.');
+
+  const logsInRange = await client.listLogsByTimeRange(new Date('2023-01-01'), new Date('2023-12-31'));
+  console.log('Logs in range:', logsInRange);
+
   await client.backupLogs();
   console.log('Backup created successfully.');
 })();
 ```
 
 ## Contributing
-We welcome contributions to Pandora Logger Client. To contribute:
+We welcome contributions to Pandora Logger. To contribute:
 
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch-name`).
@@ -198,4 +218,5 @@ yarn test
 ```
 
 ## License
-Pandora Logger Client is open-source software licensed under the MIT License.
+Pandora Logger is open-source software licensed under the MIT License.
+
