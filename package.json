@@ -1,6 +1,6 @@
 {
   "name": "pandora-logger",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Pandora Logger - A secure logging library for Node.js with optional encryption",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -44,7 +44,6 @@
     "cli-color": "^2.0.4",
     "cuid": "^3.0.0",
     "js-yaml": "^4.1.0",
-    "json5": "^2.2.3",
     "nanospinner": "^1.1.0",
     "node-emoji": "^2.1.3",
     "uuid": "^10.0.0",

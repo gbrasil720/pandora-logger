@@ -11,7 +11,6 @@ export interface EncryptionOptions {
 export interface ClientConstructor {
   keyType: LogKey;
   logFilePath: string;
-  icons: boolean;
   backupPath?: string;
   encryption?: EncryptionOptions;
 }
@@ -36,7 +35,6 @@ export interface PandoraClientTypes {
 export class PandoraClient implements PandoraClientTypes {
   keyType: LogKey;
   logFilePath: string;
-  icons: boolean;
   backupPath?: string;
   logger: Logger;
   spinner: Spinner;
