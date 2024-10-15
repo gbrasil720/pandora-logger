@@ -32,7 +32,6 @@ The constructor accepts an object with the following properties:
 
 - **keyType** (`string`): Defines the type of key used for logging. Possible values are `'uuid'`, `'numerical'`, `'cuid'`, and `'date'`.
 - **logFilePath** (`string`): Path to the log file. Required.
-- **icons** (`boolean`): Enables icons for log messages.
 - **backupPath** (`string`, optional): Path to save log backups.
 - **encryption** (`object`, optional): Encryption configuration.
   - **enabled** (`boolean`): Whether encryption is enabled.
@@ -46,7 +45,6 @@ import { PandoraClient } from 'pandora-logger';
 const client = new PandoraClient({
   keyType: 'uuid',
   logFilePath: './logs/pandora.log',
-  icons: true,
   backupPath: './backup/pandora_backup.log',
   encryption: {
     enabled: true,
@@ -63,7 +61,6 @@ Example configuration file (`pandora.yaml`):
 ```yaml
 keyType: uuid
 logFilePath: './logs/pandora.log'
-icons: true
 backupPath: './backup/pandora_backup.log'
 encryption:
   enabled: true
