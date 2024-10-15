@@ -1,9 +1,9 @@
-export { writeLog } from './writeLog';
-export { getLog } from './getLog';
-export { deleteLog } from './deleteLog';
-export { listLogs } from './listLogs';
-export { updateLog } from './updateLog';
-export { backupLogs } from './backupLogs';
-export { clearLogs } from './clearLogs';
+export { writeLog } from './writeLog'
+export { getLog } from './getLog'
+export { deleteLog } from './deleteLog'
+export { listLogs } from './listLogs'
+export { updateLog } from './updateLog'
+export { backupLogs } from './backupLogs'
+export { clearLogs } from './clearLogs'
 export { rotateLogs } from './rotateLogs'
 export { restoreLogs } from './restoreLogs'

@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'node:fs'
 
 export const readLogFile = (filePath: string) => {
   const logFileContent = fs.readFileSync(filePath, 'utf-8')

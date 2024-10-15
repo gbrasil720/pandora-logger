@@ -23,4 +23,4 @@ export const EMOJIS = {
   CHECK_MARK: get('white_check_mark'),
   WARNING: get('warning'),
   INFO: get('information_source'),
-};
+}

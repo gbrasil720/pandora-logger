@@ -10,6 +10,7 @@ tsconfig.json
 .eslintignore
 .eslintrc.json
 .prettierrc
+biome.json
 package-lock.json
 
 # Other files not needed in the final package
