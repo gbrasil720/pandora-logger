@@ -1,5 +1,3 @@
-import clc from 'cli-color'
-
 import { delay } from '../utils/delay'
 import { EMOJIS } from '../emojis'
 
@@ -11,13 +9,7 @@ export async function listLogs(
   client: PandoraClient,
   filterCriteria?: (key: string, message: string) => boolean
 ) {
-  await client.spinner.run(
-    async () => {
-      await delay(500)
-    },
-    'Listing all logs...',
-    'Listed all logs successfully!'
-  )
+  await delay(500)
 
   let logs
   if (filterCriteria) {
@@ -37,7 +29,7 @@ export async function listLogs(
   if (logs && typeof logs === 'object') {
     // biome-ignore lint/complexity/noForEach: <explanation>
     Object.entries(logs).forEach(([key, message]) => {
-      console.log(`${clc.yellow(`${key}`)}: ${clc.cyan(message as string)}`)
+      console.log(`${key}: ${message as string}`)
     })
   }
 

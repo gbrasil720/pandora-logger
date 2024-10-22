@@ -1,7 +1,5 @@
 import fs from 'node:fs'
 
-import clc from 'cli-color'
-
 import { delay } from '../utils/delay'
 import { EMOJIS } from '../emojis'
 
@@ -14,13 +12,7 @@ export async function rotateLogs(
   // Default to 5MB
   const rotatedPath = `${client.logger.filePath}.${new Date().toISOString()}.backup`
 
-  await client.spinner.run(
-    async () => {
-      await delay(500)
-    },
-    'Checking log file size for rotation...',
-    `Log file rotated. Backup created at: ${clc.blue(rotatedPath)}`
-  )
+  await delay(500)
 
   const stats = fs.statSync(client.logger.filePath)
   if (stats.size > maxFileSize) {
@@ -28,7 +20,7 @@ export async function rotateLogs(
     client.logger.create({ logs: {}, numericalKeyCounter: 1 })
   } else {
     console.log(
-      `${clc.yellow(EMOJIS.INFO)}Log file size is within limits. No rotation needed.`
+      `${EMOJIS.INFO} Log file size is within limits. No rotation needed.`
     )
   }
 }

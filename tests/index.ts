@@ -8,4 +8,4 @@ const client = new PandoraClient('./tests/pandora.yml')
 
 client.init()
 
-client.listLogs()
+client.write('lalalalala')

@@ -116,115 +116,113 @@ export class PandoraClient implements PandoraClientTypes {
         }
         const logData = this.logger.read()
         this.numericalKeyCounter = logData.numericalKeyCounter || 1
+
         this.initialized = true
       },
-      'Initializing PandoraClient...',
-      `${clc.green(EMOJIS.ROCKET)}PandoraClient initialized successfully!`
+      `${EMOJIS.HOURGLASS} Initializing PandoraClient...`,
+      `${EMOJIS.ROCKET} PandoraClient initialized successfully!`,
+      `${EMOJIS.BOOM} Failed to initialize PandoraClient. Please check the configuration.`
     )
   }
 
   async write(
     logMessage: string,
     level: 'info' | 'warning' | 'error' = 'info'
-  ): Promise<string | number> {
+  ): Promise<string | number | any> {
     ensureInitialized(this)
-    try {
-      const logKey = await writeLog(
-        this,
-        `[${level.toUpperCase()}]: ${logMessage}`
-      )
-      return logKey
-    } catch (error) {
-      throw new PandoraError(
-        'Failed to write log. Please check the log message and try again.',
-        EMOJIS.BOOM ?? '',
-        1010
-      )
-    }
+    return await this.spinner.run(
+      async () => {
+        await writeLog(this, `[${level.toUpperCase()}]: ${logMessage}`)
+      },
+      `${EMOJIS.HOURGLASS} Writing log at level: ${clc.blue(level.toUpperCase())}...`,
+      `${EMOJIS.CHECK_MARK} Log written successfully at level: ${clc.green(level.toUpperCase())}`,
+      `${EMOJIS.BOOM} Failed to write log at level: ${clc.red(level.toUpperCase())}. Please check the log message and try again.`
+    )
   }
 
-  async getLog(key: string): Promise<string | undefined> {
+  async getLog(key: string): Promise<string | undefined | any> {
     ensureInitialized(this)
-    try {
-      return await getLog(this, key)
-    } catch (error) {
-      throw new PandoraError(
-        'Failed to retrieve log. Please verify the log key.',
-        EMOJIS.BROKEN_HEART ?? '',
-        1011
-      )
-    }
+    return await this.spinner.run(
+      async () => {
+        const logMessage = await getLog(this, key)
+        if (!logMessage) {
+          throw new PandoraError(
+            'Log not found for the provided key.',
+            EMOJIS.WARNING ?? '',
+            1011
+          )
+        }
+      },
+      `${EMOJIS.HOURGLASS} Retrieving log for key: ${clc.blue(key)}...`,
+      `${EMOJIS.CHECK_MARK} Log retrieved successfully for key: ${clc.green(key)}`,
+      `${EMOJIS.BOOM} Failed to retrieve log for key: ${clc.red(key)}. Please verify the log key.`
+    )
   }
 
   async del(key: string) {
     ensureInitialized(this)
-    try {
-      await deleteLog(this, key)
-    } catch (error) {
-      throw new PandoraError(
-        'Failed to delete log. Please verify the log key.',
-        EMOJIS.BOOM ?? '',
-        1012
-      )
-    }
+    await this.spinner.run(
+      async () => {
+        await deleteLog(this, key)
+      },
+      `${EMOJIS.HOURGLASS} Deleting log for key: ${clc.blue(key)}...`,
+      `${EMOJIS.CHECK_MARK} Log deleted successfully for key: ${clc.green(key)}`,
+      `${EMOJIS.BOOM} Failed to delete log for key: ${clc.red(key)}. Please verify the log key.`
+    )
   }
 
   async listLogs(filterCriteria?: (key: string, message: string) => boolean) {
     ensureInitialized(this)
-    try {
-      const logs = await listLogs(this, filterCriteria)
-      return logs
-    } catch (error) {
-      throw new PandoraError(
-        'Failed to list logs. Please try again later.',
-        EMOJIS.BROKEN_HEART ?? '',
-        1013
-      )
-    }
+    return await this.spinner.run(
+      async () => {
+        const logs = await listLogs(this, filterCriteria)
+        return logs
+      },
+      `${EMOJIS.HOURGLASS} Listing logs...`,
+      `${EMOJIS.CHECK_MARK} Logs listed successfully!`,
+      `${EMOJIS.BOOM} Failed to list logs. Please try again later.`
+    )
   }
 
   async listLogsByLevel(level: 'info' | 'warning' | 'error') {
     ensureInitialized(this)
-    try {
-      await listLogs(this, (_: any, message: any) =>
-        message.includes(`[${level.toUpperCase()}]`)
-      )
-    } catch (error) {
-      throw new PandoraError(
-        'Failed to list logs by level. Please try again later.',
-        EMOJIS.BROKEN_HEART ?? '',
-        1014
-      )
-    }
+    return await this.spinner.run(
+      async () => {
+        await listLogs(this, (_: any, message: any) =>
+          message.includes(`[${level.toUpperCase()}]`)
+        )
+      },
+      `${EMOJIS.HOURGLASS} Listing logs at level: ${clc.blue(level.toUpperCase())}...`,
+      `${EMOJIS.CHECK_MARK} Logs listed successfully at level: ${clc.green(level.toUpperCase())}`,
+      `${EMOJIS.BOOM} Failed to list logs at level: ${clc.red(level.toUpperCase())}. Please try again later.`
+    )
   }
 
   async listLogsByTimeRange(startTime: Date, endTime: Date) {
     ensureInitialized(this)
-    try {
-      await listLogs(this, (key: any) => {
-        const logDate = new Date(key)
-        return logDate >= startTime && logDate <= endTime
-      })
-    } catch (error) {
-      throw new PandoraError(
-        'Failed to list logs by time range. Please verify the dates.',
-        EMOJIS.BROKEN_HEART ?? '',
-        1015
-      )
-    }
+    return await this.spinner.run(
+      async () => {
+        await listLogs(this, (key: any) => {
+          const logDate = new Date(key)
+          return logDate >= startTime && logDate <= endTime
+        })
+      },
+      `${EMOJIS.HOURGLASS} Listing logs from ${clc.blue(startTime.toISOString())} to ${clc.blue(endTime.toISOString())}...`,
+      `${EMOJIS.CHECK_MARK} Logs listed successfully for the given time range!`,
+      `${EMOJIS.BOOM} Failed to list logs for the given time range. Please verify the dates.`
+    )
   }
 
   async updateLog(key: string, newMessage: string) {
     ensureInitialized(this)
-    try {
-      await updateLog(this, key, newMessage)
-    } catch (error) {
-      throw new PandoraError(
-        'Failed to update log. Please verify the log key and message.',
-        EMOJIS.BOOM ?? '',
-        1016
-      )
-    }
+    await this.spinner.run(
+      async () => {
+        await updateLog(this, key, newMessage)
+      },
+      `${EMOJIS.HOURGLASS} Updating log for key: ${clc.blue(key)}...`,
+      `${EMOJIS.CHECK_MARK} Log updated successfully for key: ${clc.green(key)}`,
+      `${EMOJIS.BOOM} Failed to update log for key: ${clc.red(key)}. Please verify the log key and message.`
+    )
   }
 
   async backupLogs(backupPath?: string) {
@@ -244,7 +242,14 @@ export class PandoraClient implements PandoraClientTypes {
     }
 
     try {
-      await backupLogs(this, targetPath)
+      await this.spinner.run(
+        async () => {
+          await backupLogs(this, targetPath)
+        },
+        `${EMOJIS.HOURGLASS} Backing up logs to: ${clc.blue(targetPath)}...`,
+        `${EMOJIS.CHECK_MARK} Logs backed up and compressed successfully to: ${clc.green(`${targetPath}.gz`)}`,
+        `${EMOJIS.BOOM} Failed to backup logs. Please verify the path: ${clc.red(targetPath)}`
+      )
     } catch (error) {
       throw new PandoraError(
         'Failed to backup logs. Please verify the backup path.',
@@ -268,40 +273,37 @@ export class PandoraClient implements PandoraClientTypes {
       )
     }
 
-    try {
-      await restoreLogs(this, backupPath)
-    } catch (error) {
-      throw new PandoraError(
-        'Failed to restore logs. Please verify the backup file.',
-        EMOJIS.BROKEN_HEART ?? '',
-        1006
-      )
-    }
+    await this.spinner.run(
+      async () => {
+        await restoreLogs(this, backupPath)
+      },
+      `${EMOJIS.HOURGLASS} Restoring logs from: ${clc.blue(backupPath)}...`,
+      `${EMOJIS.CHECK_MARK} Logs restored successfully from: ${clc.green(backupPath)}`,
+      `${EMOJIS.BOOM} Failed to restore logs from: ${clc.red(backupPath)}. Please verify the backup file.`
+    )
   }
 
   async rotateLogs(maxFileSize?: number) {
     ensureInitialized(this)
-    try {
-      await rotateLogs(this, maxFileSize)
-    } catch (error) {
-      throw new PandoraError(
-        'Failed to rotate logs. Please check the file size limit.',
-        EMOJIS.BOOM ?? '',
-        1019
-      )
-    }
+    await this.spinner.run(
+      async () => {
+        await rotateLogs(this, maxFileSize)
+      },
+      `${EMOJIS.HOURGLASS} Rotating logs...`,
+      `${EMOJIS.CHECK_MARK} Logs rotated successfully!`,
+      `${EMOJIS.BOOM} Failed to rotate logs. Please check the file size limit.`
+    )
   }
 
   async clearLogs() {
     ensureInitialized(this)
-    try {
-      await clearLogs(this)
-    } catch (error) {
-      throw new PandoraError(
-        'Failed to clear logs. Please try again later.',
-        EMOJIS.BOOM ?? '',
-        1020
-      )
-    }
+    await this.spinner.run(
+      async () => {
+        await clearLogs(this)
+      },
+      `${EMOJIS.HOURGLASS} Clearing all logs...`,
+      `${EMOJIS.CHECK_MARK} All logs cleared successfully!`,
+      `${EMOJIS.BOOM} Failed to clear logs. Please try again later.`
+    )
   }
 }

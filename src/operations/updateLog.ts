@@ -1,5 +1,3 @@
-import clc from 'cli-color'
-
 import { delay } from '../utils/delay'
 import { EMOJIS } from '../emojis'
 
@@ -12,20 +10,13 @@ export async function updateLog(
   key: string,
   newMessage: string
 ) {
-  await client.spinner.run(
-    async () => {
-      await delay(500)
-    },
-    `Updating log for key: ${key}...`,
-    `Log updated for key: ${clc.yellow(key)}`
-  )
+  await delay(500)
 
   const logData = client.logger.read()
 
   if (logData.logs[key]) {
     logData.logs[key] = newMessage
     client.logger.write(logData)
-    console.log()
   } else {
     throw new PandoraWarning(
       'Log not found for update. No action taken.',

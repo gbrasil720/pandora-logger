@@ -1,6 +1,5 @@
 import fs from 'node:fs'
 
-import clc from 'cli-color'
 import { createGzip } from 'zlib'
 
 import { delay } from '../utils/delay'
@@ -22,13 +21,7 @@ export async function backupLogs(client: PandoraClient, backupPath?: string) {
     )
   }
 
-  await client.spinner.run(
-    async () => {
-      await delay(500)
-    },
-    `Backing up logs to: ${path}...`,
-    `Logs backed up and compressed successfully to: ${clc.blue(`${path}.gz`)}`
-  )
+  await delay(500)
 
   const logData = client.logger.read()
   client.logger.writeToPath(path, logData)
